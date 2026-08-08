@@ -1,18 +1,54 @@
 aid: athletic-brewing
 name: Athletic Brewing
-description: 'Athletic Brewing is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Athletic Brewing Company is a Milford, Connecticut brewer of craft non-alcoholic beer,
+  founded in 2017 by Bill Shufelt and John Walker, selling direct-to-consumer across the
+  United States alongside national retail distribution. Athletic Brewing is not a software
+  company and publishes no developer program, but its Shopify-hosted storefront at
+  athleticbrewing.com exposes a real, anonymous, machine-readable agent commerce surface:
+  a Universal Commerce Protocol (UCP) merchant profile at /.well-known/ucp, a live MCP
+  endpoint at /api/ucp/mcp serving thirteen catalog, cart, checkout and order tools with
+  full JSON Schema, an OpenID Connect discovery document for Shopify customer accounts,
+  and a published /llms.txt and /agents.md that document the agent flow and its
+  buyer-approval rules.
 url: https://raw.githubusercontent.com/api-evangelist/athletic-brewing/refs/heads/main/apis.yml
+image: https://athleticbrewing.com/cdn/shop/files/Athletic-Brewing-Company-Non-Alcoholic-Beer.png?v=1667574176
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-06'
 modified: '2026-08-06'
 tags:
 - Company
-apis: []
+- Non-Alcoholic Beer
+- Beverage
+- Consumer Packaged Goods
+- Direct to Consumer
+- E-Commerce
+- Agentic Commerce
+- Universal Commerce Protocol
+- MCP
+- Shopify
+apis:
+- name: Athletic Brewing UCP Commerce (MCP)
+  description: >-
+    The Universal Commerce Protocol shopping service Athletic Brewing's Shopify storefront
+    serves at https://athleticbrewing.com/api/ucp/mcp. An anonymous MCP (JSON-RPC 2.0)
+    endpoint exposing thirteen tools across catalog search and lookup, product detail, cart
+    lifecycle, checkout lifecycle and order retrieval. Payment completion requires a
+    contemporaneous human approval step and a required meta.idempotency-key.
+  humanURL: https://athleticbrewing.com/agents.md
+  baseURL: https://athleticbrewing.com/api/ucp/mcp
+  tags:
+  - Agentic Commerce
+  - MCP
+  - Universal Commerce Protocol
+  - E-Commerce
+  properties:
+  - type: MCPServer
+    url: mcp/athletic-brewing-mcp.yml
+  - type: Documentation
+    url: https://athleticbrewing.com/agents.md
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +56,51 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://forgeglobal.com/athletic-brewing_stock/
+  url: https://athleticbrewing.com/
+- type: Documentation
+  url: https://athleticbrewing.com/agents.md
+- type: Support
+  url: https://help.athleticbrewing.com/en-US
+- type: Blog
+  url: https://athleticbrewing.com/blogs/news
+- type: BlogRSS
+  url: https://athleticbrewing.com/blogs/news.atom
+- type: TermsOfService
+  url: https://athleticbrewing.com/policies/terms-of-service
+- type: PrivacyPolicy
+  url: https://athleticbrewing.com/policies/privacy-policy
+- type: Login
+  url: https://athleticbrewing.com/account/login
+- type: MCPServer
+  url: mcp/athletic-brewing-mcp.yml
+- type: LLMsTxt
+  url: llms/athletic-brewing-llms.txt
+- type: WellKnown
+  url: well-known/athletic-brewing-well-known.yml
+- type: Authentication
+  url: authentication/athletic-brewing-authentication.yml
+- type: OpenIDConnect
+  url: well-known/athletic-brewing-openid-configuration.json
+- type: OAuthScopes
+  url: scopes/athletic-brewing-scopes.yml
+- type: Conventions
+  url: conventions/athletic-brewing-conventions.yml
+- type: Idempotency
+  url: conventions/athletic-brewing-conventions.yml
+- type: RateLimits
+  url: rate-limits/athletic-brewing-rate-limits.yml
+- type: ErrorCatalog
+  url: errors/athletic-brewing-problem-types.yml
+- type: Conformance
+  url: conformance/athletic-brewing-conformance.yml
+- type: Lifecycle
+  url: lifecycle/athletic-brewing-lifecycle.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DomainSecurity
+  url: security/athletic-brewing-domain-security.yml
+x-enrichment:
+  date: '2026-08-06'
+  status: enriched
+  artifacts_added: 19
+  pass: local-v1
