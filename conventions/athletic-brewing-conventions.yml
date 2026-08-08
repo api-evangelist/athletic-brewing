@@ -1,0 +1,103 @@
+generated: '2026-08-06'
+method: probed
+source: https://athleticbrewing.com/api/ucp/mcp
+docs: https://athleticbrewing.com/agents.md
+description: >-
+  Cross-cutting runtime semantics for the Athletic Brewing UCP/MCP commerce surface, read
+  from the live tool schemas the endpoint returned and from the store's own published agent
+  instructions. There is no hand-written developer guide behind this — every rule below is
+  either a field in a fetched JSON Schema or a sentence in the store's /llms.txt,
+  /agents.md or /robots.txt.
+authentication:
+  style: >-
+    Two layers. Agent identity via a required meta.ucp-agent.profile URI on every
+    tools/call. Buyer authorization via Shopify customer-account OpenID Connect with PKCE
+    S256. tools/list and initialize are anonymous.
+  see: authentication/athletic-brewing-authentication.yml
+idempotency:
+  supported: true
+  mechanism: request-body metadata key
+  parameter: meta.idempotency-key
+  scope: complete_checkout
+  required: true
+  retention: not published
+  evidence: >-
+    "idempotency-key" appears in the required[] array of the meta object on the
+    complete_checkout tool's inputSchema, described as "An idempotency key for completing
+    the checkout." It is the only tool of the thirteen that requires one — the money-moving
+    one. No other tool declares an idempotency parameter.
+  gaps:
+  - No published retention window or replay semantics.
+  - create_cart and create_checkout accept no idempotency key, so a retried create can duplicate.
+pagination:
+  style: cursor
+  applies_to: [search_catalog]
+  parameters:
+    cursor: catalog.pagination.cursor
+    limit: catalog.pagination.limit
+  limit_default: 10
+  limit_minimum: 1
+  limit_maximum: not published
+  response_fields: not published in the input schema
+field_expansion:
+  supported: false
+  note: >-
+    No expand/fields/sparse-fieldset parameter in any tool schema. get_product exists as a
+    separate deeper read instead of an expansion on search_catalog.
+metadata:
+  supported: true
+  note: >-
+    Every tool takes a top-level `meta` object (UCP agent profile, and the idempotency key
+    on complete_checkout). Buyer context travels in catalog.context / cart.context and
+    platform data in catalog.signals (dev.ucp.buyer_ip, dev.ucp.user_agent), both
+    additionalProperties:true.
+request_id_tracing:
+  supported: true
+  header: x-request-id
+  example_shape: 'e1753002-5140-4a17-885c-758c066f04de-1786062897'
+  note: Returned by the MCP endpoint on every response, alongside x-shopify-ucp-mcp-api-version.
+versioning:
+  style: dated protocol versions, negotiated at discovery
+  current: '2026-04-08'
+  also_supported: ['2026-01-23']
+  advertised_at: https://athleticbrewing.com/.well-known/ucp
+  response_header: 'x-shopify-ucp-mcp-api-version: 2026-04-08'
+  mcp_protocol_version: '2025-06-18'
+  see: lifecycle/athletic-brewing-lifecycle.yml
+errors:
+  envelope: JSON-RPC 2.0 error object
+  shape: 'error: {code, message, data: {code, content, continue_url}}'
+  rfc9457: false
+  http_mapping: >-
+    Protocol-level failures return a non-2xx HTTP status carrying a JSON-RPC error body —
+    an unresolvable agent profile returns HTTP 422 with error.code -32001.
+  see: errors/athletic-brewing-problem-types.yml
+rate_limits:
+  signalled: true
+  published_numbers: false
+  policy: The MCP endpoint is rate-limited per IP; agents must back off on 429.
+  see: rate-limits/athletic-brewing-rate-limits.yml
+currency_and_money:
+  representation: minor currency units (integers)
+  evidence: catalog.filters.price.min / .max described as "in minor currency units".
+  currency_code: ISO 4217, passed as catalog.context.currency
+  locale_fields:
+    country: ISO 3166-1 alpha-2 (catalog.context.address_country)
+    language: IETF BCP 47 (catalog.context.language)
+human_in_the_loop:
+  required_for: payment completion
+  statement: >-
+    Agents must not complete checkout, payment, or order placement without an explicit,
+    contemporaneous human approval step. Stated in /llms.txt, /agents.md and /robots.txt.
+x-evidence:
+  fetched: '2026-08-06'
+  probes:
+  - url: https://athleticbrewing.com/api/ucp/mcp
+    method: POST tools/list
+    http_status: 200
+  - url: https://athleticbrewing.com/llms.txt
+    http_status: 200
+  - url: https://athleticbrewing.com/robots.txt
+    http_status: 200
+  - url: https://athleticbrewing.com/.well-known/ucp
+    http_status: 200

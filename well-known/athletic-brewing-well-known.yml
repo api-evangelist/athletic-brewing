@@ -1,0 +1,80 @@
+generated: '2026-08-06'
+method: probed
+source: https://athleticbrewing.com/.well-known/
+description: >-
+  Index of /.well-known/ paths probed anonymously on the Athletic Brewing storefront host
+  and on its underlying Shopify host. Every row records the HTTP status actually returned.
+  Absence of a record is valid data.
+hosts:
+- host: athleticbrewing.com
+  paths:
+  - path: /.well-known/ucp
+    status: 200
+    content_type: application/json
+    file: well-known/athletic-brewing-ucp.json
+    note: >-
+      Universal Commerce Protocol merchant profile. Declares UCP version 2026-04-08 (with
+      2026-01-23 also supported), the dev.ucp.shopping service over MCP transport, and the
+      cart / checkout / fulfillment / discount / order / catalog.search / catalog.lookup
+      capabilities plus payment handlers.
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    file: well-known/athletic-brewing-openid-configuration.json
+    note: >-
+      OpenID Connect discovery for Shopify customer accounts. Issuer
+      https://shopify.com/authentication/7931756625.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: well-known/athletic-brewing-oauth-authorization-server.json
+    note: RFC 8414 authorization server metadata; byte-identical to the OIDC discovery document.
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    file: well-known/athletic-brewing-oauth-protected-resource.json
+    note: >-
+      RFC 9728 protected resource metadata. Names athleticbrewing.com as the resource and
+      the Shopify authentication issuer as its authorization server; bearer token in header.
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+    note: Not published. No RFC 9116 security contact on this host.
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+    note: No A2A agent card. Storefront answers the SPA 404 page.
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+    note: No legacy (pre-0.3) A2A agent card either.
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+- host: athletic-brewing-company.myshopify.com
+  paths:
+  - path: /.well-known/ucp
+    status: 200
+    content_type: application/json
+    file: well-known/athletic-brewing-ucp.json
+    note: Redirects to the primary domain and serves the same merchant profile.
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+related:
+- llms/athletic-brewing-llms.txt
+- mcp/athletic-brewing-mcp.yml
+- authentication/athletic-brewing-authentication.yml
+- scopes/athletic-brewing-scopes.yml
+x-evidence:
+  fetched: '2026-08-06'
+  method: anonymous HTTPS GET, browser user-agent

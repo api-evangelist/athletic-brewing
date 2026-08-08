@@ -1,0 +1,85 @@
+generated: '2026-08-06'
+method: probed
+source: https://athleticbrewing.com/.well-known/openid-configuration
+docs: https://athleticbrewing.com/agents.md
+description: >-
+  Authentication profile for the Athletic Brewing storefront's agent and customer surfaces.
+  Derived entirely from documents the host serves anonymously — the OpenID Connect discovery
+  document, the RFC 8414 authorization-server metadata, the RFC 9728 protected-resource
+  metadata, and live introspection of the UCP/MCP endpoint. Nothing here is inferred from
+  a private or credentialed source.
+schemes:
+- id: shopify-customer-accounts-oidc
+  type: openIdConnect
+  surface: customer accounts / buyer-scoped commerce
+  openIdConnectUrl: https://athleticbrewing.com/.well-known/openid-configuration
+  issuer: https://shopify.com/authentication/7931756625
+  authorization_endpoint: https://shopify.com/authentication/7931756625/oauth/authorize
+  token_endpoint: https://shopify.com/authentication/7931756625/oauth/token
+  end_session_endpoint: https://shopify.com/authentication/7931756625/logout
+  jwks_uri: https://shopify.com/authentication/7931756625/.well-known/jwks.json
+  response_types_supported: [code]
+  grant_types_supported:
+  - authorization_code
+  - refresh_token
+  - 'urn:ietf:params:oauth:grant-type:jwt-bearer'
+  token_endpoint_auth_methods_supported: [client_secret_basic]
+  code_challenge_methods_supported: [S256]
+  id_token_signing_alg_values_supported: [RS256]
+  subject_types_supported: [public]
+  claims_supported: [iss, sub, aud, exp, iat, nonce, sid, email, email_verified]
+  scopes: scopes/athletic-brewing-scopes.yml
+  pkce_required: true
+  notes: >-
+    PKCE with S256 is the only code_challenge_method offered. The authorization server is
+    operated by Shopify on behalf of the merchant; the discovery document is served from
+    Athletic Brewing's own domain.
+- id: ucp-protected-resource
+  type: http
+  scheme: bearer
+  surface: athleticbrewing.com as an OAuth protected resource
+  source: https://athleticbrewing.com/.well-known/oauth-protected-resource
+  resource: https://athleticbrewing.com
+  authorization_servers:
+  - https://shopify.com/authentication/7931756625
+  bearer_methods_supported: [header]
+  spec: RFC 9728
+- id: ucp-agent-profile
+  type: other
+  surface: UCP/MCP endpoint (https://athleticbrewing.com/api/ucp/mcp)
+  mechanism: >-
+    Every tools/call must carry meta.ucp-agent.profile, a resolvable URI identifying the
+    calling agent, which the server fetches. This is agent identity, not buyer
+    authorization — it gates who may call, not what a buyer has consented to.
+  anonymous_operations:
+  - initialize
+  - tools/list
+  failure_mode:
+    http_status: 422
+    jsonrpc_error_code: -32001
+    message: UCP discovery failed
+    data_code: invalid_profile_url
+anonymous_access:
+  tools_list: true
+  catalog_json: true
+  note: >-
+    Product and collection JSON (/products.json, /collections/{handle}/products.json) and
+    MCP tools/list are readable with no credentials at all.
+consent:
+  payment_requires_human_approval: true
+  source: https://athleticbrewing.com/llms.txt
+  statement: >-
+    "Checkout requires human approval. Agents must not complete payment without explicit
+    buyer consent." Restated in robots.txt.
+x-evidence:
+  fetched: '2026-08-06'
+  probes:
+  - url: https://athleticbrewing.com/.well-known/openid-configuration
+    http_status: 200
+  - url: https://athleticbrewing.com/.well-known/oauth-authorization-server
+    http_status: 200
+  - url: https://athleticbrewing.com/.well-known/oauth-protected-resource
+    http_status: 200
+  - url: https://athleticbrewing.com/api/ucp/mcp
+    http_status: 422
+    note: tools/call without meta.ucp-agent.profile

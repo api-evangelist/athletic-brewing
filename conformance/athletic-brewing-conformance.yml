@@ -1,0 +1,117 @@
+generated: '2026-08-06'
+method: probed
+source: live probes of athleticbrewing.com
+description: >-
+  Cross-cutting standards the Athletic Brewing storefront's agent surface does and does not
+  conform to. Every assertion carries a URL that was actually fetched and the status it
+  returned. Athletic Brewing publishes no compliance or certification claims of its own;
+  the standards conformance below is inherited from the Shopify commerce platform but is
+  served from Athletic Brewing's own host.
+standards:
+- id: ucp
+  name: Universal Commerce Protocol
+  version: '2026-04-08'
+  conforms: true
+  evidence: >-
+    /.well-known/ucp returns 200 with a merchant profile declaring version 2026-04-08 (and
+    2026-01-23), the dev.ucp.shopping service over MCP transport, and the checkout, cart,
+    fulfillment, discount, order, catalog.search and catalog.lookup capabilities.
+  url: https://athleticbrewing.com/.well-known/ucp
+  http_status: 200
+- id: mcp
+  name: Model Context Protocol
+  version: '2025-06-18'
+  conforms: true
+  evidence: >-
+    initialize returned protocolVersion 2025-06-18 with serverInfo universal-commerce
+    0.1.0; tools/list returned 13 tools each with a draft 2020-12 JSON Schema inputSchema.
+  url: https://athleticbrewing.com/api/ucp/mcp
+  http_status: 200
+- id: jsonrpc-2.0
+  name: JSON-RPC 2.0
+  conforms: true
+  evidence: All responses carry jsonrpc "2.0", the echoed id, and a result or error member.
+  url: https://athleticbrewing.com/api/ucp/mcp
+  http_status: 200
+- id: json-schema-2020-12
+  name: JSON Schema draft 2020-12
+  conforms: true
+  evidence: 'Every tool inputSchema declares $schema: https://json-schema.org/draft/2020-12/schema.'
+  url: https://athleticbrewing.com/api/ucp/mcp
+  http_status: 200
+- id: oidc-discovery
+  name: OpenID Connect Discovery 1.0
+  conforms: true
+  evidence: >-
+    /.well-known/openid-configuration returns 200 with issuer, authorization_endpoint,
+    token_endpoint, jwks_uri, response_types_supported and id_token_signing_alg_values_supported.
+  url: https://athleticbrewing.com/.well-known/openid-configuration
+  http_status: 200
+- id: rfc8414
+  name: OAuth 2.0 Authorization Server Metadata
+  conforms: true
+  evidence: /.well-known/oauth-authorization-server returns 200 with the same metadata document.
+  url: https://athleticbrewing.com/.well-known/oauth-authorization-server
+  http_status: 200
+- id: rfc9728
+  name: OAuth 2.0 Protected Resource Metadata
+  conforms: true
+  evidence: >-
+    /.well-known/oauth-protected-resource returns 200 naming the resource, its authorization
+    server, and bearer_methods_supported ["header"].
+  url: https://athleticbrewing.com/.well-known/oauth-protected-resource
+  http_status: 200
+- id: rfc7636
+  name: OAuth 2.0 PKCE
+  conforms: true
+  evidence: code_challenge_methods_supported is ["S256"] — PKCE is the only offered flow hardening.
+  url: https://athleticbrewing.com/.well-known/openid-configuration
+  http_status: 200
+- id: llmstxt
+  name: llms.txt
+  conforms: true
+  evidence: /llms.txt returns 200 as text/markdown, mirrored at /agents.md, and is referenced from robots.txt.
+  url: https://athleticbrewing.com/llms.txt
+  http_status: 200
+- id: rfc9116
+  name: security.txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on both athleticbrewing.com and the myshopify.com host.
+  url: https://athleticbrewing.com/.well-known/security.txt
+  http_status: 404
+- id: a2a
+  name: A2A Agent Card
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and the legacy /.well-known/agent.json both return 404 on
+    both hosts. No agent card is published.
+  url: https://athleticbrewing.com/.well-known/agent-card.json
+  http_status: 404
+- id: rfc9457
+  name: Problem Details for HTTP APIs
+  conforms: false
+  evidence: Errors are JSON-RPC error objects, not application/problem+json.
+  url: https://athleticbrewing.com/api/ucp/mcp
+  http_status: 422
+- id: openapi
+  name: OpenAPI
+  conforms: false
+  evidence: >-
+    /openapi.json, /swagger.json and /api-docs all 404; api., docs. and developer.
+    subdomains do not resolve. No OpenAPI is published for any Athletic Brewing surface.
+  url: https://athleticbrewing.com/openapi.json
+  http_status: 404
+- id: rfc8594
+  name: Sunset HTTP Header
+  conforms: false
+  evidence: No Sunset or Deprecation header observed; no deprecation policy is published.
+  url: https://athleticbrewing.com/api/ucp/mcp
+  http_status: 200
+compliance_claims:
+  published: false
+  note: >-
+    Athletic Brewing publishes no trust center, no SOC 2 / ISO 27001 / PCI attestation page,
+    and no vulnerability disclosure program. Card payment runs through Shopify's handlers;
+    any PCI posture is Shopify's and is not asserted on Athletic Brewing's site.
+x-evidence:
+  fetched: '2026-08-06'

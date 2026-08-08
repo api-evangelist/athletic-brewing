@@ -1,0 +1,62 @@
+generated: '2026-08-06'
+method: probed
+source: https://athleticbrewing.com/.well-known/ucp
+description: >-
+  Versioning, deprecation, status and SLA posture for the Athletic Brewing agent commerce
+  surface. Athletic Brewing publishes no API lifecycle policy of its own; what exists is
+  protocol version negotiation inherited from UCP and MCP, advertised from Athletic
+  Brewing's own host.
+versioning:
+  published: true
+  style: dated protocol versions, negotiated at discovery and echoed in a response header
+  current: '2026-04-08'
+  supported:
+  - version: '2026-04-08'
+    profile: https://athletic-brewing-company.myshopify.com/.well-known/ucp/2026-04-08
+    status: current
+  - version: '2026-01-23'
+    profile: https://athletic-brewing-company.myshopify.com/.well-known/ucp/2026-01-23
+    status: supported
+  advertised_at: https://athleticbrewing.com/.well-known/ucp
+  response_header: 'x-shopify-ucp-mcp-api-version: 2026-04-08'
+  mcp_protocol_version: '2025-06-18'
+  note: >-
+    Two versions are concurrently supported and both are enumerated in the discovery
+    document, which is a real negotiation contract — but no policy states how long a
+    version is kept, or what notice precedes its removal.
+deprecation_policy:
+  published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  evidence: >-
+    No Sunset or Deprecation response header was observed on the MCP endpoint, and no
+    deprecation, EOL or version-support policy page exists on athleticbrewing.com.
+  probed:
+  - url: https://athleticbrewing.com/api/ucp/mcp
+    http_status: 200
+status_page:
+  published: false
+  evidence: >-
+    status.athleticbrewing.com does not resolve. https://athleticbrewing.statuspage.io/
+    returns HTTP 200 but redirects to the Atlassian Statuspage marketing page and is
+    byte-identical to a control request for a nonsense subdomain — a soft 404, not a status
+    page.
+  probed:
+  - url: https://status.athleticbrewing.com/
+    http_status: 000
+    note: DNS does not resolve
+  - url: https://athleticbrewing.statuspage.io/
+    http_status: 200
+    note: soft 404 — identical body to control subdomain, redirects to atlassian.com
+changelog:
+  published: false
+  evidence: /pages/changelog returns 404. Version changes are visible only as new dated UCP versions.
+sla:
+  published: false
+roadmap:
+  published: false
+  evidence: /pages/roadmap returns 404.
+deprecated_operations: []
+x-evidence:
+  fetched: '2026-08-06'

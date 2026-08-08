@@ -1,0 +1,38 @@
+generated: '2026-08-06'
+method: probed
+source: https://athleticbrewing.com/.well-known/openid-configuration
+docs: https://athleticbrewing.com/.well-known/oauth-authorization-server
+description: >-
+  OAuth 2.0 / OpenID Connect scopes advertised by the authorization server behind the
+  Athletic Brewing storefront, taken verbatim from the scopes_supported array of the
+  discovery document the store serves at its own domain. Athletic Brewing publishes no
+  scope reference page of its own; these four values are the complete published set.
+issuer: https://shopify.com/authentication/7931756625
+scope_count: 4
+scopes:
+- name: openid
+  description: Standard OpenID Connect scope; requests an ID token for the signed-in customer.
+  standard: true
+- name: email
+  description: Releases the email and email_verified claims for the signed-in customer.
+  standard: true
+- name: customer-account-api:full
+  description: >-
+    Full access to the Shopify Customer Account API on behalf of the signed-in buyer —
+    orders, addresses, payment methods and profile for that customer only.
+  standard: false
+- name: customer-account-mcp-api:full
+  description: >-
+    Full access to the customer-account MCP API on behalf of the signed-in buyer. This is
+    the scope that lets an agent act on a buyer's authenticated account through MCP rather
+    than only browsing the anonymous catalog.
+  standard: false
+notes:
+- No granular read/write split is published; both non-standard scopes are ":full".
+- PKCE S256 is required; see authentication/athletic-brewing-authentication.yml.
+x-evidence:
+  fetched: '2026-08-06'
+  probes:
+  - url: https://athleticbrewing.com/.well-known/openid-configuration
+    http_status: 200
+    content_type: application/json

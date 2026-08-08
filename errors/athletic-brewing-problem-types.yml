@@ -1,0 +1,67 @@
+generated: '2026-08-06'
+method: probed
+source: https://athleticbrewing.com/api/ucp/mcp
+format: jsonrpc-2.0
+rfc9457: false
+description: >-
+  Error catalog for the Athletic Brewing UCP/MCP commerce endpoint. There is no OpenAPI to
+  derive 4xx/5xx responses from and no published error reference, so every entry below was
+  observed by making a real malformed call against the live endpoint and recording exactly
+  what came back. Only observed errors are listed — the full UCP error space is defined
+  upstream at ucp.dev and is not published by Athletic Brewing.
+envelope:
+  transport: JSON-RPC 2.0 over HTTP POST
+  shape:
+    jsonrpc: '2.0'
+    id: echoed from the request
+    error:
+      code: integer JSON-RPC error code
+      message: human-readable summary
+      data:
+        code: machine-readable sub-code string
+        content: detail message
+        continue_url: URL a human can be handed to continue in a browser
+  content_type: application/json
+  note: >-
+    The HTTP status is meaningful and does not always mirror the JSON-RPC code — a failed
+    agent-profile discovery returns HTTP 422 carrying error.code -32001.
+problem_types:
+- code: -32001
+  data_code: invalid_profile_url
+  http_status: 422
+  title: UCP discovery failed
+  detail: 'Unable to fetch agent profile: Missing profile uri'
+  cause: >-
+    The request omitted meta.ucp-agent.profile, or the URI supplied could not be resolved
+    by the server.
+  remediation: >-
+    Publish a resolvable UCP agent profile document and pass its URI as
+    meta.ucp-agent.profile on every tools/call.
+  observed: true
+  note: >-
+    This error is returned ahead of method dispatch — an unknown method name and a
+    well-formed tools/call both fail this way when the profile is absent, so it masks
+    method-not-found.
+- code: null
+  data_code: null
+  http_status: 429
+  title: Rate limited
+  detail: Documented in the store's agent instructions; not reproduced by probe.
+  cause: Per-IP rate limit on the MCP endpoint exceeded.
+  remediation: Back off and retry.
+  observed: false
+  source: https://athleticbrewing.com/llms.txt
+gaps:
+- No published error reference; sub-codes are discoverable only by provoking them.
+- Errors are not RFC 9457 application/problem+json.
+- No documented retry/idempotent-replay guidance for complete_checkout failures, despite
+  meta.idempotency-key being required on that tool.
+x-evidence:
+  fetched: '2026-08-06'
+  probes:
+  - url: https://athleticbrewing.com/api/ucp/mcp
+    method: POST with unknown method name
+    http_status: 422
+  - url: https://athleticbrewing.com/api/ucp/mcp
+    method: POST tools/call search_catalog without meta
+    http_status: 422

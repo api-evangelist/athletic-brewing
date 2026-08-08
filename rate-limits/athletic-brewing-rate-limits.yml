@@ -1,0 +1,36 @@
+generated: '2026-08-06'
+method: searched
+source: https://athleticbrewing.com/llms.txt
+description: >-
+  Rate limiting on the Athletic Brewing UCP/MCP commerce endpoint. A policy is published in
+  the store's own agent instructions, but no numeric limit, window, quota or rate-limit
+  response header is published anywhere the anonymous probe could reach.
+rate_limits:
+- name: ucp-mcp-endpoint
+  applies_to: https://athleticbrewing.com/api/ucp/mcp
+  scope: per IP address
+  limit_count: null
+  window: null
+  published_numbers: false
+  statement: >-
+    "Respect rate limits. The MCP endpoint is rate-limited per IP. Back off on 429
+    responses."
+  retry_signal: HTTP 429
+  retry_after_header: not published
+  observed_headers_on_200:
+  - x-shopify-ucp-mcp-api-version
+  - x-request-id
+  observed_ratelimit_headers: []
+gaps:
+- No numeric limit or window is published; an integrator cannot size a client from the docs.
+- No RateLimit-* / X-RateLimit-* headers were present on a successful tools/list response.
+- No documented Retry-After semantics beyond "back off".
+x-evidence:
+  fetched: '2026-08-06'
+  probes:
+  - url: https://athleticbrewing.com/llms.txt
+    http_status: 200
+  - url: https://athleticbrewing.com/api/ucp/mcp
+    method: POST tools/list
+    http_status: 200
+    note: response headers inspected for rate-limit signalling; none present
