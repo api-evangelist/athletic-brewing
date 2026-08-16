@@ -1,0 +1,21 @@
+{
+  "repo": "athletic-brewing",
+  "feeds": [
+    {
+      "source": "https://help.athleticbrewing.com/en-US",
+      "feed_url": "https://help.athleticbrewing.com/en-US",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    },
+    {
+      "source": "https://athleticbrewing.com/blogs/news",
+      "feed_url": "https://athleticbrewing.com/blogs/news.atom",
+      "title": "",
+      "saved": 1,
+      "method": "discovered"
+    }
+  ],
+  "post_count": 1,
+  "fetched": "2026-08-15T12:22:01Z"
+}
