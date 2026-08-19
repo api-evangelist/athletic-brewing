@@ -3,14 +3,12 @@ method: searched
 source: https://athleticbrewing.com/api/ucp/mcp
 status: live
 name: Athletic Brewing UCP Commerce MCP Server
-description: >-
-  Athletic Brewing's Shopify storefront serves a live, anonymous Model Context Protocol
-  endpoint implementing the Universal Commerce Protocol (UCP) dev.ucp.shopping service.
-  Discovered from the store's own /llms.txt, /agents.md and /robots.txt, confirmed against
-  /.well-known/ucp, and introspected directly: an unauthenticated tools/list returned all
-  thirteen tools with complete JSON Schema. This is not a developer program Athletic
-  Brewing built — it is the Shopify commerce platform's agent surface, served from
-  Athletic Brewing's own host and advertised in Athletic Brewing's own robots.txt.
+description: 'Athletic Brewing''s Shopify storefront serves a live, anonymous Model Context Protocol endpoint
+  implementing the Universal Commerce Protocol (UCP) dev.ucp.shopping service. Discovered from the store''s
+  own /llms.txt, /agents.md and /robots.txt, confirmed against /.well-known/ucp, and introspected directly:
+  an unauthenticated tools/list returned all thirteen tools with complete JSON Schema. This is not a developer
+  program Athletic Brewing built — it is the Shopify commerce platform''s agent surface, served from Athletic
+  Brewing''s own host and advertised in Athletic Brewing''s own robots.txt.'
 transport: streamable-http
 endpoint: https://athleticbrewing.com/api/ucp/mcp
 alternate_endpoint: https://athletic-brewing-company.myshopify.com/api/ucp/mcp
@@ -34,74 +32,98 @@ protocol:
   - '2026-01-23'
 authentication:
   tools_list: anonymous
-  tools_call: >-
-    Requires meta.ucp-agent.profile — a resolvable UCP agent profile URI. Calls without it
-    return HTTP 422 with JSON-RPC error -32001 "UCP discovery failed". Buyer-scoped
-    operations additionally require Shopify customer-account OAuth (see
-    authentication/athletic-brewing-authentication.yml).
+  tools_call: Requires meta.ucp-agent.profile — a resolvable UCP agent profile URI. Calls without it return
+    HTTP 422 with JSON-RPC error -32001 "UCP discovery failed". Buyer-scoped operations additionally require
+    Shopify customer-account OAuth (see authentication/athletic-brewing-authentication.yml).
 tool_count: 13
 tools:
 - name: search_catalog
   category: catalog
   description: Search for products from the online store using natural language.
-  parameters: [meta, catalog]
-  notable: >-
-    catalog.query, catalog.filters (categories, price min/max in minor units, available),
-    catalog.context (address_country, address_region, postal_code, language, currency,
-    intent), catalog.pagination (cursor, limit default 10).
+  parameters:
+  - meta
+  - catalog
+  notable: catalog.query, catalog.filters (categories, price min/max in minor units, available), catalog.context
+    (address_country, address_region, postal_code, language, currency, intent), catalog.pagination (cursor,
+    limit default 10).
 - name: lookup_catalog
   category: catalog
   description: Look up multiple products or variants by identifier in a single request.
-  parameters: [meta, catalog]
+  parameters:
+  - meta
+  - catalog
 - name: get_product
   category: catalog
   description: Retrieve complete product detail by identifier, with variants and exact pricing.
-  parameters: [meta, catalog]
+  parameters:
+  - meta
+  - catalog
 - name: create_cart
   category: cart
   description: Creates a new cart.
-  parameters: [meta, cart]
+  parameters:
+  - meta
+  - cart
 - name: get_cart
   category: cart
   description: Get the cart contents.
-  parameters: [meta, id]
+  parameters:
+  - meta
+  - id
 - name: update_cart
   category: cart
   description: Perform updates to a cart.
-  parameters: [meta, cart, id]
+  parameters:
+  - meta
+  - cart
+  - id
 - name: cancel_cart
   category: cart
   description: Cancels a cart.
-  parameters: [meta, id]
+  parameters:
+  - meta
+  - id
 - name: create_checkout
   category: checkout
   description: Creates a checkout; returns line items, totals, discounts and taxes.
-  parameters: [meta, checkout]
+  parameters:
+  - meta
+  - checkout
 - name: get_checkout
   category: checkout
   description: Returns details about the checkout, including line items, totals, discounts and taxes.
-  parameters: [meta, id]
+  parameters:
+  - meta
+  - id
 - name: update_checkout
   category: checkout
   description: Updates a checkout (shipping address, fulfillment method, discounts).
-  parameters: [meta, checkout, id]
+  parameters:
+  - meta
+  - checkout
+  - id
 - name: complete_checkout
   category: checkout
   description: Completes a checkout and returns the order result.
-  parameters: [meta, checkout, id]
+  parameters:
+  - meta
+  - checkout
+  - id
   requires_idempotency_key: true
-  note: >-
-    meta.idempotency-key is a REQUIRED property on this tool — the only tool of the
-    thirteen that requires one. Buyer approval of payment is mandatory per the store's
-    published agent rules.
+  note: meta.idempotency-key is a REQUIRED property on this tool — the only tool of the thirteen that
+    requires one. Buyer approval of payment is mandatory per the store's published agent rules.
 - name: cancel_checkout
   category: checkout
   description: Cancels a checkout.
-  parameters: [meta, id]
+  parameters:
+  - meta
+  - id
 - name: get_order
   category: order
   description: Get the details of an order.
-  parameters: [meta, id]
+  parameters:
+  - meta
+  - id
 capabilities_declared:
 - dev.ucp.shopping.catalog.search
 - dev.ucp.shopping.catalog.lookup
@@ -117,10 +139,9 @@ payment_handlers:
 schemas:
   verbatim: mcp/athletic-brewing-tools-list.json
   upstream_openrpc: https://ucp.dev/2026-04-08/services/shopping/mcp.openrpc.json
-  note: >-
-    The full inputSchema for every tool is saved verbatim in
-    mcp/athletic-brewing-tools-list.json exactly as the endpoint returned it. The generic
-    UCP shopping OpenRPC schema is published by ucp.dev, not by Athletic Brewing.
+  note: The full inputSchema for every tool is saved verbatim in mcp/athletic-brewing-tools-list.json
+    exactly as the endpoint returned it. The generic UCP shopping OpenRPC schema is published by ucp.dev,
+    not by Athletic Brewing.
 rules:
 - Checkout requires contemporaneous human approval; agents must not complete payment autonomously.
 - The MCP endpoint is rate-limited per IP; back off on 429.
@@ -146,3 +167,9 @@ x-evidence:
     x-shopify-ucp-mcp-api-version: '2026-04-08'
     x-request-id: present on every response
     server: cloudflare
+deployment:
+  mode: remote
+  verified: searched
+  tools: 13
+  checked: '2026-08-12'
+  source: catalog MCP census
