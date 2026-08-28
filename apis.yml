@@ -12,6 +12,17 @@ description: >-
   and a published /llms.txt and /agents.md that document the agent flow and its
   buyer-approval rules.
 url: https://raw.githubusercontent.com/api-evangelist/athletic-brewing/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://athleticbrewing.com/cdn/shop/files/Athletic-Brewing-Company-Non-Alcoholic-Beer.png?v=1667574176
 x-type: company
 x-source: harvest:secondary-market
