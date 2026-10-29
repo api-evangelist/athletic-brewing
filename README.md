@@ -64,5 +64,107 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Athletic Brewing is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://forgeglobal.com/athletic-brewing_stock/
+Athletic Brewing Company is a Milford, Connecticut brewer of craft non-alcoholic beer, founded in 2017 by Bill Shufelt and John Walker, selling direct-to-consumer across the United States alongside national retail distribution. Athletic Brewing is not a software company and publishes no developer program, but its Shopify-hosted storefront at athleticbrewing.com exposes a real, anonymous, machine-readable agent commerce surface: a Universal Commerce Protocol (UCP) merchant profile at /.well-known/ucp, a live MCP endpoint at /api/ucp/mcp serving thirteen catalog, cart, checkout and order tools with full JSON Schema, an OpenID Connect discovery document for Shopify customer accounts, and a published /llms.txt and /agents.md that document the agent flow and its buyer-approval rules.
+
+**Areas:** Company · Non-Alcoholic Beer · Beverages · Consumer Packaged Goods · Direct to Consumer · E-Commerce · Agentic Commerce · Universal Commerce Protocol · MCP · Shopify
+
+## Athletic Brewing on APIs.io
+
+Everything profiled for Athletic Brewing is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/athletic-brewing/](https://apis.io/providers/athletic-brewing/)** — or go straight to one of the APIs or properties below.
+
+### APIs (1)
+
+- [Athletic Brewing UCP Commerce (MCP)](https://apis.io/apis/athletic-brewing/athletic-brewing-ucp-commerce-mcp/) — The Universal Commerce Protocol shopping service Athletic Brewing's Shopify storefront serves at https://athleticbrewing.com/api/ucp/mcp. An anonymous MCP…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [Athletic Brewing UCP Commerce MCP Server](https://apis.io/servers/athletic-brewing/athletic-brewing-ucp-commerce-mcp-server/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Athletic Brewing Authentication](https://apis.io/security/athletic-brewing/athletic-brewing-authentication/)
+- [Athletic Brewing Domain Security](https://apis.io/security/athletic-brewing/athletic-brewing-domain-security/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Athletic Brewing Scopes](https://apis.io/scopes/athletic-brewing/athletic-brewing-scopes/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Athletic Brewing Rate Limits](https://apis.io/rate-limits/athletic-brewing/athletic-brewing-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://athleticbrewing.com/)
+- [Documentation](https://athleticbrewing.com/agents.md)
+- [Support](https://help.athleticbrewing.com/en-US)
+- [Blog](https://athleticbrewing.com/blogs/news)
+- [Terms of service](https://athleticbrewing.com/policies/terms-of-service)
+- [Privacy policy](https://athleticbrewing.com/policies/privacy-policy)
+
+## API Evangelist rating
+
+**Kin Score 23.8** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.7 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 0.0 |
+| Developer ergonomics | 30.4 |
+| Access clarity | 27.6 |
+
+**Agent readiness 15.1** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | platform (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | documented (partial credit) |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | platform (partial credit) |
+
+**Regulatory alignment 34.3** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/athletic-brewing/](https://apis.io/providers/athletic-brewing/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Athletic Brewing: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/athletic-brewing/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
